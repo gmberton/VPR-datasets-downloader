@@ -1,4 +1,3 @@
-
 import matplotlib
 matplotlib.use('Agg')
 import os
@@ -14,13 +13,16 @@ from collections import defaultdict
 from staticmap import StaticMap, Polygon
 from matplotlib.colors import ListedColormap
 
+
 def _lon_to_x(lon, zoom):
     if not (-180 <= lon <= 180): lon = (lon + 180) % 360 - 180
     return ((lon + 180.) / 360) * pow(2, zoom)
 
+
 def _lat_to_y(lat, zoom):
     if not (-90 <= lat <= 90): lat = (lat + 90) % 180 - 90
     return (1 - math.log(math.tan(lat * math.pi / 180) + 1 / math.cos(lat * math.pi / 180)) / math.pi) / 2 * pow(2, zoom)
+
 
 def _download_map_image(min_lat=45.0, min_lon=7.6, max_lat=45.1, max_lon=7.7, size=2000):
     """"Download a map of the chosen area as a numpy image"""
@@ -41,21 +43,23 @@ def _download_map_image(min_lat=45.0, min_lon=7.6, max_lat=45.1, max_lon=7.7, si
         "If this happens, try setting zoom -= 1"
     return np.array(image)[max_lat_px:min_lat_px, min_lon_px:max_lon_px], static_map, zoom
 
+
 def get_edges(coordinates, enlarge=0):
-    '''
-    Send the edges of the coordinates, i.e. the most south, west, north and 
+    """
+    Send the edges of the coordinates, i.e. the most south, west, north and
         east coordinates.
     :param coordinates: A list of numpy.arrays of shape (Nx2)
-    :param float enlarge: How much to increase the coordinates, to enlarge 
+    :param float enlarge: How much to increase the coordinates, to enlarge
         the area included between the points
     :return: a tuple with the four float
-    '''
+    """
     min_lat, min_lon, max_lat, max_lon = (*np.concatenate(coordinates).min(0), *np.concatenate(coordinates).max(0))
     diff_lat = (max_lat - min_lat) * enlarge
     diff_lon = (max_lon - min_lon) * enlarge
     inc_min_lat, inc_min_lon, inc_max_lat, inc_max_lon = \
         min_lat-diff_lat, min_lon-diff_lon, max_lat+diff_lat, max_lon+diff_lon
     return inc_min_lat, inc_min_lon, inc_max_lat, inc_max_lon
+
 
 def _create_map(coordinates, colors=None, dot_sizes=None, legend_names=None, map_intensity=0.6):
     dot_sizes = dot_sizes if dot_sizes is not None else [10] * len(coordinates)
@@ -76,7 +80,7 @@ def _create_map(coordinates, colors=None, dot_sizes=None, legend_names=None, map
         for i in range(len(coord)):  # Scale latitudes because of earth's curvature
             coord[i,0] = -static_map._y_to_px(_lat_to_y(coord[i,0], zoom))
     for coord, size, color in zip(coordinates, dot_sizes, colors):
-        scatters.append(plt.scatter(coord[:,1], coord[:,0], s=size, c=color))
+        scatters.append(plt.scatter(coord[:, 1], coord[:, 0], s=size, color=color))
     
     if legend_names != None:
         plt.legend(scatters, legend_names, scatterpoints=10000, loc='lower left',
@@ -111,9 +115,14 @@ def _get_coordinates_from_dataset(dataset_folder, extension="jpg"):
     grouped_gps_coords = defaultdict(list)
     
     for image_path in images_paths:
-        folder_name = os.path.dirname(image_path).replace(f"{dataset_folder}/", "").split("/")[:2]
+        # folder_name = os.path.dirname(image_path).replace(f"{dataset_folder}/", "").split("/")[:2]
+        full_path = os.path.dirname(image_path)
+        full_parent_path, parent_dir = os.path.split(full_path)
+        parent_parent_dir = os.path.split(full_parent_path)[1]
+
         # folder_name is for example "train - gallery"
-        folder_name = " - ".join(folder_name)
+        folder_name = " - ".join([parent_parent_dir, parent_dir])
+
         gps_coords = image_path.split("@")[5], image_path.split("@")[6]
         grouped_gps_coords[folder_name].append(gps_coords)
     
@@ -124,7 +133,7 @@ def _get_coordinates_from_dataset(dataset_folder, extension="jpg"):
 
 def build_map_from_dataset(dataset_folder, dot_sizes=None):
     """dataset_folder is the path that contains the 'images' folder."""
-    grouped_gps_coords = _get_coordinates_from_dataset(f"{dataset_folder}/images")
+    grouped_gps_coords = _get_coordinates_from_dataset(join(dataset_folder, "images"))
     SORTED_FOLDERS = ["train - gallery", "train - queries", "val - gallery", "val - queries", "test - gallery", "test - queries"]
     try:
         grouped_gps_coords = sorted(grouped_gps_coords, key=lambda x: SORTED_FOLDERS.index(x[0]))
@@ -150,13 +159,4 @@ def build_map_from_dataset(dataset_folder, dot_sizes=None):
     dataset_name = os.path.basename(os.path.abspath(dataset_folder))
     io.imsave(join(dataset_folder, f"map_{dataset_name}.png"), map_img)
     io.imsave(join(".", f"map_{dataset_name}.png"), map_img)
-    return map_img
-
-
-# if __name__ == "__main__":
-#     map_img = build_map_from_dataset(".")
-
-map_img = build_map_from_dataset("/home/valerio/datasets/rtokyo", [10,20])
-import g_util as g
-g.show_image(map_img)
-
+    #return map_img

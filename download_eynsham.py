@@ -28,7 +28,7 @@ datasets_folder = join(os.curdir, "datasets")
 dataset_name = "eynsham"
 dataset_folder = join(datasets_folder, dataset_name)
 raw_data_folder = join(datasets_folder, dataset_name, "raw_data")
-gallery_folder = join(dataset_folder, "images", "test", "gallery")
+gallery_folder = join(dataset_folder, "images", "test", "database")
 queries_folder = join(dataset_folder, "images", "test", "queries")
 os.makedirs(dataset_folder, exist_ok=True)
 os.makedirs(gallery_folder, exist_ok=True)
@@ -64,5 +64,5 @@ for pano_num, (lon, lat) in enumerate(tqdm(coords, ncols=100)):
             Image.open(src_image_path).save(join(queries_folder, dst_image_name))
 
 map_builder.build_map_from_dataset(dataset_folder)
-# shutil.rmtree(raw_data_folder)
+shutil.rmtree(raw_data_folder)
 

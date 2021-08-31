@@ -1,4 +1,3 @@
-
 """
 Mapillary Street-level Sequences (MSLS)
 IMPORTANT: first you need to download the zip files from https://www.mapillary.com/dataset/places
@@ -7,7 +6,6 @@ Well organized dataset for visual geolocalization. Only flaw is that almost all 
 forward views of the car, with very few images sideways.
 Other flaw is that it's not dense, but sparse in sequences.
 """
-
 import os
 import utm
 import shutil
@@ -24,12 +22,14 @@ default_cities = {
     'test': ["miami","athens","buenosaires","stockholm","bengaluru","kampala"]
 }
 
+
 def format_coord(num, left=2, right=5):
     sign = "-" if float(num) < 0 else ""
     num = str(abs(float(num))) + "."
     integer, decimal = num.split(".")[:2]
     left -= len(sign)
     return f"{sign}{int(integer):0{left}d}.{decimal[:right]:<0{right}}"
+
 
 def format_location_info(latitude, longitude):
     easting, northing, zone_number, zone_letter = utm.from_latlon(float(latitude), float(longitude))
@@ -38,6 +38,7 @@ def format_location_info(latitude, longitude):
     latitude = format_coord(latitude, 3, 5)
     longitude = format_coord(longitude, 4, 5)
     return easting, northing, zone_number, zone_letter, latitude, longitude
+
 
 #### TODO questa funzione è uguale a quella in util.py
 def get_dst_image_name(latitude, longitude, pano_id=None, tile_num=None, heading=None,
@@ -56,6 +57,7 @@ def get_dst_image_name(latitude, longitude, pano_id=None, tile_num=None, heading
     return f"@{easting}@{northing}@{zone_number:02d}@{zone_letter}@{latitude}@{longitude}" + \
            f"@{pano_id}@{tile_num}@{heading}@{pitch}@{roll}@{height}@{timestamp}@{note}@{extension}"
 
+
 # TODO
 csv_files_paths = sorted(glob("*/*/postprocessed.csv"))
 
@@ -66,9 +68,11 @@ for csv_file_path in csv_files_paths:
         raw_lines = file.readlines()[1:]
     assert len(raw_lines) == len(postprocessed_lines)
     city, folder, _ = csv_file_path.split("/")
-    folder = "gallery" if folder == "database" else "queries"
+    folder = "database" if folder == "database" else "queries"
     train_val = "train" if city in default_cities["train"] else "val"
-    dst_folder = f"___mio_datasev3/{train_val}/{folder}"
+    # dst_folder = f"___mio_datasev3/{train_val}/{folder}"
+    dst_folder = os.path.join('msls', train_val, folder)
+
     os.makedirs(dst_folder, exist_ok=True)
     for postprocessed_line, raw_line in zip(tqdm(postprocessed_lines, desc=csv_file_path), raw_lines):
         _, pano_id, lon, lat, _, timestamp, is_panorama = raw_line.split(",")
@@ -79,14 +83,14 @@ for csv_file_path in csv_files_paths:
         day_night = "day" if postprocessed_line.split(",")[-2] == "False" else "night"
         note = f"{day_night}_{view_direction}_{city}"
         dst_image_name = get_dst_image_name(lat, lon, pano_id, timestamp=timestamp, note=note)
-        src_image_path = f"{os.path.dirname(csv_file_path)}/images/{pano_id}.jpg"
-        _ = shutil.copy(src_image_path, f"{dst_folder}/{dst_image_name}")
+        # src_image_path = f"{os.path.dirname(csv_file_path)}/images/{pano_id}.jpg"
+        src_image_path = os.path.join(os.path.dirname(csv_file_path), 'images', pano_id)
+        dst_image_path = os.path.join(dst_folder, dst_image_name)
+        # _ = shutil.copy(src_image_path, f"{dst_folder}/{dst_image_name}")
+        _ = shutil.move(src_image_path, dst_image_path)
 
-# TODO clean up
-os.symlink(os.path.abspath("___mio_datasev3/val"), "___mio_datasev3/test")
 
-"""
-import os
-os.symlink(os.path.abspath("val"), "test")
-"""
+val_path = os.path.join('msls', 'val')
+test_path = os.path.join('msls', 'test')
+os.symlink(os.path.abspath(val_path), test_path)
 

@@ -1,12 +1,9 @@
-
 """
-pip install mega.py
 The dataset of St Lucia was collected in Brisbane, Australia, driving a car
 along the same path 10 different times. The dataset is downloaded as videos,
 from which we extract frames with 5 meters between each other.
 https://github.com/arrenglover/openfabmap/wiki/Datasets
 """
-
 import os
 import shutil
 from skimage import io
@@ -77,5 +74,5 @@ for sequence_num, url in enumerate(urls):
             io.imsave(join(dst_queries_folder, image_name), frame)
 
 map_builder.build_map_from_dataset(dataset_folder)
-# shutil.rmtree(raw_data_folder)
+shutil.rmtree(raw_data_folder)
 
