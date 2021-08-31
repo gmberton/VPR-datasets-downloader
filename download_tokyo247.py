@@ -58,7 +58,7 @@ for filename in ["03814.tar", "03815.tar", "03816.tar", "03817.tar", "03818.tar"
     shutil.unpack_archive(file_path, join(raw_data_folder, "tokyo247"))
 
 # matlab_struct_file_path = f"{dataset_folder}/raw_data/datasets/tokyo247.mat"
-matlab_struct_file_path = join(dataset_folder, 'raw_data', 'tokyo247.mat')
+matlab_struct_file_path = join(dataset_folder, 'raw_data', 'datasets', 'tokyo247.mat')
 
 mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
 # g_images = [f"tokyo247/{f[0].item().replace('.jpg', '.png')}" for f in mat_struct[1]]
