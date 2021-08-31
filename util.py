@@ -1,12 +1,3 @@
-"""
-TODO
-creazione automatica della tabella, in cui per ogni dataset:
-
-name - train gallery size - train query size - val gallery size - val query size - test gallery size - test query size - 
-    #gallery per query - tile nums - multi-domain - is-sequence - time machine
-
-"""
-
 import os
 import re
 import utm

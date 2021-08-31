@@ -5,7 +5,7 @@ Highly scalable appearance-only SLAM-FAB-MAP 2.0
 
 Collected around the city of Oxford, it is part of a bigger (unavailable) dataset of a 1000 Km sequence.
 It covers a distance of roughly 30 Km, with a car driving
-twice around the same loop (first loop is gallery, second loop is queries).
+twice around the same loop (first loop is database, second loop is queries).
 Each panorama is split in 5 tiles.
 The images are greyscale. Many panoramas cover countryside areas.
 https://zenodo.org/record/1243106#.YFabM_4o-Cg
@@ -28,10 +28,10 @@ datasets_folder = join(os.curdir, "datasets")
 dataset_name = "eynsham"
 dataset_folder = join(datasets_folder, dataset_name)
 raw_data_folder = join(datasets_folder, dataset_name, "raw_data")
-gallery_folder = join(dataset_folder, "images", "test", "database")
+database_folder = join(dataset_folder, "images", "test", "database")
 queries_folder = join(dataset_folder, "images", "test", "queries")
 os.makedirs(dataset_folder, exist_ok=True)
-os.makedirs(gallery_folder, exist_ok=True)
+os.makedirs(database_folder, exist_ok=True)
 os.makedirs(queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
@@ -57,9 +57,9 @@ for pano_num, (lon, lat) in enumerate(tqdm(coords, ncols=100)):
         timestamp = datetime.utcfromtimestamp(int(timestamp)).strftime('%Y%m%d_%H%M%S')
         dst_image_name = util.get_dst_image_name(lat, lon, pano_id=f"{pano_num:04d}",
                                              tile_num=tile_num, timestamp=timestamp)
-        # The first 4787 images correspond to the first sequence, and it is the gallery
+        # The first 4787 images correspond to the first sequence, and it is the database
         if pano_num < 4787:
-            Image.open(src_image_path).save(join(gallery_folder, dst_image_name))
+            Image.open(src_image_path).save(join(database_folder, dst_image_name))
         else:
             Image.open(src_image_path).save(join(queries_folder, dst_image_name))
 

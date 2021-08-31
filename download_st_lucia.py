@@ -20,14 +20,14 @@ datasets_folder = join(os.curdir, "datasets")
 dataset_name = "st_lucia"
 dataset_folder = join(datasets_folder, dataset_name)
 raw_data_folder = join(datasets_folder, dataset_name, "raw_data")
-dst_gallery_folder = join(dataset_folder, "images", "test", "gallery")
+dst_database_folder = join(dataset_folder, "images", "test", "database")
 dst_queries_folder = join(dataset_folder, "images", "test", "queries")
 os.makedirs(dataset_folder, exist_ok=True)
-os.makedirs(dst_gallery_folder, exist_ok=True)
+os.makedirs(dst_database_folder, exist_ok=True)
 os.makedirs(dst_queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
-# Use the first pass for the gallery, and the last one for the queries
+# Use the first pass for the database, and the last one for the queries
 urls = ['https://mega.nz/file/nE4g0LzZ#c8eL_H3ZfXElqEukw38i32p5cjwusTuNJYYeEP1d5Pg',
         # 'https://mega.nz/file/TVRXlDZR#WUJad1yQunPLpA38Z0rPqBeXXh4g_jnt4n-ZjDF8hKw',
         # 'https://mega.nz/file/LNRkiZAB#LemKJHU7kDunl_9CMQM6xCUdLzVhMYqE3DIZ6QVDOUo',
@@ -68,8 +68,8 @@ for sequence_num, url in enumerate(urls):
         
         frame = vr.get_frame_at_frame_num(frame_num)
         image_name = util.get_dst_image_name(latitude, longitude, pano_id=f"{subset_name}_{frame_num:05d}")
-        if sequence_num == 0:  # The first sequence is the gallery
-            io.imsave(join(dst_gallery_folder, image_name), frame)
+        if sequence_num == 0:  # The first sequence is the database
+            io.imsave(join(dst_database_folder, image_name), frame)
         else:
             io.imsave(join(dst_queries_folder, image_name), frame)
 

@@ -52,10 +52,10 @@ for dataset in ["train", "val", "test"]:
     # matlab_struct_file_path = f"{dataset_folder}/raw_data/datasets/pitts250k_{dataset}.mat"
     matlab_struct_file_path = os.path.join(dataset_folder, "raw_data", "datasets", f"pitts250k_{dataset}.mat")
     mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
-    # Gallery
+    # Database
     g_images = [f[0].item() for f in mat_struct[1]]
     g_utms = mat_struct[2].T
-    # copy_images(f"{dataset_folder}/images/{dataset}/gallery", g_images, g_utms)
+    # copy_images(f"{dataset_folder}/images/{dataset}/database", g_images, g_utms)
     copy_images(os.path.join(dataset_folder, 'images', dataset, 'database'), g_images, g_utms)
     # Queries
     # q_images = [f"queries_real/{f[0].item()}" for f in mat_struct[3]]

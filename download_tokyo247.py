@@ -65,8 +65,8 @@ mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
 g_images = [join('tokyo247', f[0].item().replace('.jpg', '.png')) for f in mat_struct[1]]
 
 g_utms = mat_struct[2].T
-dst_folder = join(dataset_folder, 'images', 'test', 'gallery')
-# copy_images(f"{dataset_folder}/images/test/gallery", g_images, g_utms, is_247=True)
+dst_folder = join(dataset_folder, 'images', 'test', 'database')
+# copy_images(f"{dataset_folder}/images/test/database", g_images, g_utms, is_247=True)
 copy_images(dst_folder, g_images, g_utms, is_247=True)
 
 #### Queries
@@ -78,7 +78,7 @@ shutil.unpack_archive(file_zip_path, join(raw_data_folder, "tokyo247"))
 src_queries_folder = file_zip_path.replace(".zip", "")
 src_queries_paths = sorted(glob(join(src_queries_folder, "*.jpg")))
 os.makedirs(join(dataset_folder, "images", "test", "queries"), exist_ok=True)
-for src_query_path in tqdm(src_queries_paths, desc=f"Copying to {dataset_folder}/images/test/queries", ncols=100):
+for src_query_path in tqdm(src_queries_paths, desc=f"Copy to {dataset_folder}/images/test/queries", ncols=100):
     csv_path = src_query_path.replace(".jpg", ".csv")
     with open(csv_path, "r") as file:
         info = file.readline()
@@ -91,4 +91,4 @@ for src_query_path in tqdm(src_queries_paths, desc=f"Copying to {dataset_folder}
     resized_pil_img.save(dst_image_path)
 
 map_builder.build_map_from_dataset(dataset_folder)
-
+shutil.rmtree(raw_data_folder)

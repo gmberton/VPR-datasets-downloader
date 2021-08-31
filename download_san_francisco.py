@@ -1,12 +1,9 @@
 """
 San Francisco Landmark Dataset
-The gallery contains 1.06M images, which in the paper are referred to 
+The database contains 1.06M images, which in the paper are referred to
 as PCIs (perspective central images). PFIs are ignored, as they are a subset of PCIs.
 The query set consists of 803 images taken with different camera phones.
 The dataset is not suitable for training, as there is no "time machine".
-
-TODO there's been a change, the original positions are up to 305 meters wrong,
-so I used the labels from revisited SF (see survey)
 """
 
 import os
@@ -38,21 +35,21 @@ for i, (url, tar_path) in enumerate(zip(urls, tars_paths)):
         continue
     print(f"{i:>3} / {len(filenames)} ) downloading {tar_path}")
     util.download_heavy_file(url, tar_path)
-    try:  # Unpacking gallery archives
+    try:  # Unpacking database archives
         shutil.unpack_archive(tar_path, raw_data_folder)
     except shutil.ReadError:
         pass  # Some tars are empty files
 
 print("Formatting database files")
-dst_gallery_folder = join(dataset_folder, "images", "test", "database")
-os.makedirs(dst_gallery_folder, exist_ok=True)
+dst_database_folder = join(dataset_folder, "images", "test", "database")
+os.makedirs(dst_database_folder, exist_ok=True)
 src_images_paths = sorted(glob(join(raw_data_folder, "**", "*.jpg"), recursive=True))
 for src_image_path in tqdm(src_images_paths, ncols=100):
     _, _, pano_id, latitude, longitude, building_id, tile_num, carto_id, heading, pitch = os.path.basename(src_image_path).split("_")
     pitch = pitch.replace(".jpg", "")
     dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id, tile_num,
                                              heading, pitch, extension=".jpg")
-    dst_image_path = join(dst_gallery_folder, dst_image_name)
+    dst_image_path = join(dst_database_folder, dst_image_name)
     _ = shutil.move(src_image_path, dst_image_path)
 
 #### Queries
