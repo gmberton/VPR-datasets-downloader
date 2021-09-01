@@ -1,3 +1,4 @@
+
 import os
 import re
 import utm
@@ -45,8 +46,6 @@ def copy_images(dst_folder, src_images_paths, utms, is_247):
                                                  tile_num=tile_num, timestamp=timestamp)
         Image.open(f"{dataset_folder}/raw_data/{src_image_path}").save(f"{dst_folder}/{dst_image_name}")
 
-
-######## Tokyo24/7
 #### Database
 for filename in ["03814.tar", "03815.tar", "03816.tar", "03817.tar", "03818.tar",
                  "03819.tar", "03820.tar", "03821.tar", "03822.tar", "03823.tar",
@@ -57,16 +56,13 @@ for filename in ["03814.tar", "03815.tar", "03816.tar", "03817.tar", "03818.tar"
     util.download_heavy_file(url, file_path)
     shutil.unpack_archive(file_path, join(raw_data_folder, "tokyo247"))
 
-# matlab_struct_file_path = f"{dataset_folder}/raw_data/datasets/tokyo247.mat"
 matlab_struct_file_path = join(dataset_folder, 'raw_data', 'datasets', 'tokyo247.mat')
 
 mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
-# g_images = [f"tokyo247/{f[0].item().replace('.jpg', '.png')}" for f in mat_struct[1]]
 g_images = [join('tokyo247', f[0].item().replace('.jpg', '.png')) for f in mat_struct[1]]
 
 g_utms = mat_struct[2].T
 dst_folder = join(dataset_folder, 'images', 'test', 'database')
-# copy_images(f"{dataset_folder}/images/test/database", g_images, g_utms, is_247=True)
 copy_images(dst_folder, g_images, g_utms, is_247=True)
 
 #### Queries

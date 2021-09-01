@@ -1,10 +1,3 @@
-"""
-San Francisco Landmark Dataset
-The database contains 1.06M images, which in the paper are referred to
-as PCIs (perspective central images). PFIs are ignored, as they are a subset of PCIs.
-The query set consists of 803 images taken with different camera phones.
-The dataset is not suitable for training, as there is no "time machine".
-"""
 
 import os
 import utm

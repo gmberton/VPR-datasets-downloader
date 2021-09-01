@@ -1,3 +1,4 @@
+
 import matplotlib
 matplotlib.use('Agg')
 import os
@@ -21,8 +22,7 @@ def _lon_to_x(lon, zoom):
 
 def _lat_to_y(lat, zoom):
     if not (-90 <= lat <= 90): lat = (lat + 90) % 180 - 90
-    return (1 - math.log(math.tan(lat * math.pi / 180) + 1 / math.cos(lat * math.pi / 180)) / math.pi) / 2 * pow(2,
-                                                                                                                 zoom)
+    return (1 - math.log(math.tan(lat * math.pi / 180) + 1 / math.cos(lat * math.pi / 180)) / math.pi) / 2 * pow(2, zoom)
 
 
 def _download_map_image(min_lat=45.0, min_lon=7.6, max_lat=45.1, max_lon=7.7, size=2000):
@@ -42,8 +42,7 @@ def _download_map_image(min_lat=45.0, min_lon=7.6, max_lat=45.1, max_lon=7.7, si
         static_map._x_to_px(_lon_to_x(min_lon, zoom)), \
         static_map._y_to_px(_lat_to_y(max_lat, zoom)), \
         static_map._x_to_px(_lon_to_x(max_lon, zoom))
-    assert 0 <= max_lat_px < min_lat_px < size and 0 <= min_lon_px < max_lon_px < size, \
-        "If this happens, try setting zoom -= 1"
+    assert 0 <= max_lat_px < min_lat_px < size and 0 <= min_lon_px < max_lon_px < size
     return np.array(image)[max_lat_px:min_lat_px, min_lon_px:max_lon_px], static_map, zoom
 
 
@@ -98,9 +97,9 @@ def _create_map(coordinates, colors=None, dot_sizes=None, legend_names=None, map
     plt.close()
 
     plot_img = cv2.resize(plot_img[:, :, :3], map_img.shape[:2][::-1], interpolation=cv2.INTER_LANCZOS4)
-    map_img[(map_img.sum(2) < 444)] = 188  # schiarisci i pixel troppo scuri
-    map_img = (((map_img / 255) ** map_intensity) * 255).astype(np.uint8)  # sbiadisci la mappa
-    mask = (plot_img.sum(2) == 255 * 3)[:, :, None]  # mask del plot, per trovare i pixel bianchi
+    map_img[(map_img.sum(2) < 444)] = 188  # brighten dark pixels
+    map_img = (((map_img / 255) ** map_intensity) * 255).astype(np.uint8)  # fade map
+    mask = (plot_img.sum(2) == 255 * 3)[:, :, None]  # mask of plot, to find white pixels
     final_map = map_img * mask + plot_img * (~mask)
     return final_map
 
@@ -120,7 +119,6 @@ def _get_coordinates_from_dataset(dataset_folder, extension="jpg"):
     grouped_gps_coords = defaultdict(list)
 
     for image_path in images_paths:
-        # folder_name = os.path.dirname(image_path).replace(f"{dataset_folder}/", "").split("/")[:2]
         full_path = os.path.dirname(image_path)
         full_parent_path, parent_dir = os.path.split(full_path)
         parent_parent_dir = os.path.split(full_parent_path)[1]
@@ -139,13 +137,12 @@ def _get_coordinates_from_dataset(dataset_folder, extension="jpg"):
 def build_map_from_dataset(dataset_folder, dot_sizes=None):
     """dataset_folder is the path that contains the 'images' folder."""
     grouped_gps_coords = _get_coordinates_from_dataset(join(dataset_folder, "images"))
-    SORTED_FOLDERS = ["train - database", "train - queries", "val - database", "val - queries", "test - database",
-                      "test - queries"]
+    SORTED_FOLDERS = ["train - database", "train - queries", "val - database", "val - queries",
+                      "test - database", "test - queries"]
     try:
         grouped_gps_coords = sorted(grouped_gps_coords, key=lambda x: SORTED_FOLDERS.index(x[0]))
     except ValueError:
         pass  # This dataset has different folder names than the standard train-val-test database-queries.
-    if "msls" in dataset_folder: grouped_gps_coords = grouped_gps_coords[:-2]
     coordinates = []
     legend_names = []
     for folder_name, coords in grouped_gps_coords:
@@ -164,5 +161,3 @@ def build_map_from_dataset(dataset_folder, dot_sizes=None):
     print(f"Map image resolution: {map_img.shape}")
     dataset_name = os.path.basename(os.path.abspath(dataset_folder))
     io.imsave(join(dataset_folder, f"map_{dataset_name}.png"), map_img)
-    # io.imsave(join(".", f"map_{dataset_name}.png"), map_img)
-    # return map_img

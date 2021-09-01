@@ -1,3 +1,4 @@
+
 import os
 from os.path import join
 from google_drive_downloader import GoogleDriveDownloader as gdd
@@ -8,4 +9,3 @@ gdd.download_file_from_google_drive(file_id='16iuk8voW65GaywNUQlWAbDt6HZzAJ_t9',
                                     unzip=True)
 
 os.remove(join(datasets_folder, 'svox.zip'))
-

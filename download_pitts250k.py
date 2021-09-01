@@ -1,6 +1,4 @@
-"""
-Pitts250k dataset from Pittsburgh.
-"""
+
 import os
 import re
 import utm
@@ -44,21 +42,17 @@ def copy_images(dst_folder, src_images_paths, utms):
 
         src_path = os.path.join(dataset_folder, 'raw_data', src_image_path)
         dst_path = os.path.join(dst_folder, dst_image_name)
-        # shutil.copyfile(f"{dataset_folder}/raw_data/{src_image_path}", f"{dst_folder}/{dst_image_name}")
         shutil.move(src_path, dst_path)
 
 
 for dataset in ["train", "val", "test"]:
-    # matlab_struct_file_path = f"{dataset_folder}/raw_data/datasets/pitts250k_{dataset}.mat"
     matlab_struct_file_path = os.path.join(dataset_folder, "raw_data", "datasets", f"pitts250k_{dataset}.mat")
     mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
     # Database
     g_images = [f[0].item() for f in mat_struct[1]]
     g_utms = mat_struct[2].T
-    # copy_images(f"{dataset_folder}/images/{dataset}/database", g_images, g_utms)
     copy_images(os.path.join(dataset_folder, 'images', dataset, 'database'), g_images, g_utms)
     # Queries
-    # q_images = [f"queries_real/{f[0].item()}" for f in mat_struct[3]]
     q_images = [os.path.join("queries_real", f"{f[0].item()}") for f in mat_struct[3]]
 
     q_utms = mat_struct[4].T

@@ -1,14 +1,9 @@
-"""
-The dataset of St Lucia was collected in Brisbane, Australia, driving a car
-along the same path 10 different times. The dataset is downloaded as videos,
-from which we extract frames with 5 meters between each other.
-https://github.com/arrenglover/openfabmap/wiki/Datasets
-"""
+
 import os
 import shutil
-from skimage import io
 from tqdm import tqdm
 from mega import Mega
+from skimage import io
 from os.path import join
 
 import util

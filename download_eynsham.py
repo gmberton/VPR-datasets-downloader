@@ -1,17 +1,4 @@
 
-"""
-Eynsham
-Highly scalable appearance-only SLAM-FAB-MAP 2.0
-
-Collected around the city of Oxford, it is part of a bigger (unavailable) dataset of a 1000 Km sequence.
-It covers a distance of roughly 30 Km, with a car driving
-twice around the same loop (first loop is database, second loop is queries).
-Each panorama is split in 5 tiles.
-The images are greyscale. Many panoramas cover countryside areas.
-https://zenodo.org/record/1243106#.YFabM_4o-Cg
-"""
-
-
 import os
 import shutil
 import numpy as np
