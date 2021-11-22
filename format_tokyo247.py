@@ -1,4 +1,11 @@
 
+"""
+In datasets/tokyo247/raw_data you should have unpacked the following tars:
+03814.tar, 03815.tar, 03816.tar, 03817.tar, 03818.tar, 03819.tar, 03820.tar, 03821.tar,
+03822.tar, 03823.tar, 03824.tar, 03825.tar, 03826.tar, 03827.tar, 03828.tar, 03829.tar.
+Moreover, there should be the file datasets/tokyo247/raw_data/datasets/tokyo247.mat
+"""
+
 import os
 import re
 import utm
@@ -21,13 +28,6 @@ os.makedirs(dataset_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 os.makedirs(join(raw_data_folder, "tokyo247"), exist_ok=True)
 
-filename = "netvlad_v100_datasets.tar.gz"
-file_path = join(raw_data_folder, filename)
-url = f"https://data.ciirc.cvut.cz/public/projects/2015netVLAD/Pittsburgh250k/{filename}"
-util.download_heavy_file(url, file_path)
-shutil.unpack_archive(file_path, raw_data_folder)
-
-
 def copy_images(dst_folder, src_images_paths, utms, is_247):
     os.makedirs(dst_folder, exist_ok=True)
     for src_image_path, (utm_east, utm_north) in zip(tqdm(src_images_paths, desc=f"Copy to {dst_folder}", ncols=100),
@@ -47,15 +47,6 @@ def copy_images(dst_folder, src_images_paths, utms, is_247):
         Image.open(f"{dataset_folder}/raw_data/{src_image_path}").save(f"{dst_folder}/{dst_image_name}")
 
 #### Database
-for filename in ["03814.tar", "03815.tar", "03816.tar", "03817.tar", "03818.tar",
-                 "03819.tar", "03820.tar", "03821.tar", "03822.tar", "03823.tar",
-                 "03824.tar", "03825.tar", "03826.tar", "03827.tar", "03828.tar",
-                 "03829.tar"]:
-    url = f"https://data.ciirc.cvut.cz/public/projects/2015netVLAD/Tokyo247/database_gsv_vga/{filename}"
-    file_path = join(raw_data_folder, "tokyo247", filename)
-    util.download_heavy_file(url, file_path)
-    shutil.unpack_archive(file_path, join(raw_data_folder, "tokyo247"))
-
 matlab_struct_file_path = join(dataset_folder, 'raw_data', 'datasets', 'tokyo247.mat')
 
 mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
@@ -88,3 +79,4 @@ for src_query_path in tqdm(src_queries_paths, desc=f"Copy to {dataset_folder}/im
 
 map_builder.build_map_from_dataset(dataset_folder)
 shutil.rmtree(raw_data_folder)
+
