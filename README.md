@@ -13,6 +13,8 @@ About the datasets formatting, the adopted convention is that the names of the f
 Note that for many datasets some of these values are empty, and however the only required values are
 UTM coordinates (obtained from latitude and longitude).
 
+The reason for using the character "@" as a separator, is that commonly used characters such as dash "-" or underscore "\_" might be used in the fields, for example in the _pano\_id_ field.
+
 The directory tree that is generated is as follows:
 ```
 .
