@@ -41,7 +41,7 @@ def copy_images(dst_folder, src_images_paths, utms):
 
 
 for dataset in ["train", "val", "test"]:
-    matlab_struct_file_path = os.path.join(dataset_folder, "raw_data", "datasets", f"pitts250k_{dataset}.mat")
+    matlab_struct_file_path = os.path.join(dataset_folder, "raw_data", "datasets", f"pitts30k_{dataset}.mat")
     mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
     # Database
     g_images = [f[0].item() for f in mat_struct[1]]
