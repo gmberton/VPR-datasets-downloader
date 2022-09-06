@@ -45,6 +45,7 @@ The list of datasets that you can download with this code is the following:
 - Tokyo 24/7* - as test set only
 - St Lucia - as test set only
 - SVOX - as test set only
+- Nordland - as test set only
 
 To download each dataset, simply run the corresponding python script, that will download,
 unpack and format the file according to the structure above.
@@ -88,6 +89,12 @@ To download St Lucia, simply run `$ python download_st_lucia.py`
 ## SVOX
 
 To download SVOX, simply run `$ python download_svox.py`
+
+## SVOX
+
+To download Nordland, simply run `$ python download_nordland.py`
+
+The images will be arranged to have GPS/UTM labels compatible with the benchmarking code. More info on it are in the comment on top of the `download_nordland.py` script. We used the splits used by the [Patch-NetVLAD paper](https://arxiv.org/abs/2103.01486).
 
 ## Tokyo 24/7
 
