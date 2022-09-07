@@ -15,6 +15,7 @@ import os
 import shutil
 from tqdm import tqdm
 from glob import glob
+from PIL import Image
 from os.path import join
 
 import util
@@ -57,9 +58,9 @@ for path in tqdm(database_paths, ncols=100):
     if os.path.basename(path) not in selected_images:
         continue
     utm_north = util.format_coord(num_image*DISTANCE_BETWEEN_FRAMES, 5, 1)
-    filename = f"@0@{utm_north}@@@@@{num_image}@@@@@@@@.png"
+    filename = f"@0@{utm_north}@@@@@{num_image}@@@@@@@@.jpg"
     new_path = join(database_folder, filename)
-    _ = shutil.move(path, new_path)
+    Image.open(path).save(new_path)
     num_image += 1
 
 num_image = 0
@@ -67,8 +68,8 @@ for path in tqdm(queries_paths, ncols=100):
     if os.path.basename(path) not in selected_images:
         continue
     utm_north = util.format_coord(num_image*DISTANCE_BETWEEN_FRAMES, 5, 1)
-    filename = f"@0@{utm_north}@@@@@{num_image}@@@@@@@@.png"
+    filename = f"@0@{utm_north}@@@@@{num_image}@@@@@@@@.jpg"
     new_path = join(queries_folder, filename)
-    _ = shutil.move(path, new_path)
+    Image.open(path).save(new_path)
     num_image += 1
 
