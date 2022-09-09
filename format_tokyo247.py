@@ -28,33 +28,29 @@ os.makedirs(dataset_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 os.makedirs(join(raw_data_folder, "tokyo247"), exist_ok=True)
 
-def copy_images(dst_folder, src_images_paths, utms, is_247):
-    os.makedirs(dst_folder, exist_ok=True)
-    for src_image_path, (utm_east, utm_north) in zip(tqdm(src_images_paths, desc=f"Copy to {dst_folder}", ncols=100),
-                                                     utms):
-        src_image_name = os.path.basename(src_image_path)
-        latitude, longitude = utm.to_latlon(utm_east, utm_north, 54, 'S')
-        pano_id = src_image_name[:22]
-        if is_247:
-            tile_num = int(re.findall('_012_(\d+)\.png', src_image_name)[0])//30
-            timestamp = None
-        else:
-            tile_num = int(re.findall('_(\d+)_012\.jpg', src_image_name)[0])//30
-            timestamp = os.path.basename(os.path.dirname(src_image_path))[1:]  # YYYYMM, such as 201503
-        assert 0 <= tile_num < 12
-        dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id=pano_id,
-                                                 tile_num=tile_num, timestamp=timestamp)
-        Image.open(f"{dataset_folder}/raw_data/{src_image_path}").save(f"{dst_folder}/{dst_image_name}")
-
 #### Database
 matlab_struct_file_path = join(dataset_folder, 'raw_data', 'datasets', 'tokyo247.mat')
 
 mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
-g_images = [join('tokyo247', f[0].item().replace('.jpg', '.png')) for f in mat_struct[1]]
+db_images = [join('tokyo247', f[0].item().replace('.jpg', '.png')) for f in mat_struct[1]]
 
-g_utms = mat_struct[2].T
+db_utms = mat_struct[2].T
 dst_folder = join(dataset_folder, 'images', 'test', 'database')
-copy_images(dst_folder, g_images, g_utms, is_247=True)
+
+os.makedirs(dst_folder, exist_ok=True)
+for src_image_path, (utm_east, utm_north) in zip(tqdm(db_images, desc=f"Copy to {dst_folder}", ncols=100),
+                                                 db_utms):
+    src_image_name = os.path.basename(src_image_path)
+    latitude, longitude = utm.to_latlon(utm_east, utm_north, 54, 'S')
+    pano_id = src_image_name[:22]
+    tile_num = int(re.findall('_012_(\d+)\.png', src_image_name)[0])//30
+    assert 0 <= tile_num < 12
+    dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id=pano_id,
+                                             tile_num=tile_num)
+    src_image_path = f"{dataset_folder}/raw_data/{src_image_path}"
+    if not os.path.exists(src_image_path):
+        raise FileNotFoundError(f"File {src_image_path} does not exist!")
+    Image.open(f"{dataset_folder}/raw_data/{src_image_path}").save(f"{dst_folder}/{dst_image_name}")
 
 #### Queries
 filename = "247query_subset_v2.zip"
