@@ -48,9 +48,11 @@ for src_image_path, (utm_east, utm_north) in zip(tqdm(db_images, desc=f"Copy to 
     dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id=pano_id,
                                              tile_num=tile_num)
     src_image_path = f"{dataset_folder}/raw_data/{src_image_path}"
-    if not os.path.exists(src_image_path):
-        raise FileNotFoundError(f"File {src_image_path} does not exist!")
-    Image.open(f"{dataset_folder}/raw_data/{src_image_path}").save(f"{dst_folder}/{dst_image_name}")
+    try:
+        Image.open(src_image_path).save(f"{dst_folder}/{dst_image_name}")
+    except OSError as e:
+        print(f"Exception {e} with file {src_image_path}")
+        raise e
 
 #### Queries
 filename = "247query_subset_v2.zip"
@@ -69,7 +71,11 @@ for src_query_path in tqdm(src_queries_paths, desc=f"Copy to {dataset_folder}/im
     pano_id = pano_id.replace(",jpg", "")
     dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id=pano_id)
     dst_image_path = join(dataset_folder, "images", "test", "queries", dst_image_name)
-    pil_img = Image.open(src_query_path)
+    try:
+        pil_img = Image.open(src_query_path)
+    except OSError as e:
+        print(f"Exception {e} with file {src_query_path}")
+        raise e
     resized_pil_img = torchvision.transforms.Resize(480)(pil_img)
     resized_pil_img.save(dst_image_path)
 
