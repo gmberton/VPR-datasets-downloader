@@ -90,7 +90,7 @@ To download St Lucia, simply run `$ python download_st_lucia.py`
 
 To download SVOX, simply run `$ python download_svox.py`
 
-## SVOX
+## Nordland
 
 To download Nordland, simply run `$ python download_nordland.py`
 
