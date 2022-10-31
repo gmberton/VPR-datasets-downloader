@@ -1,9 +1,13 @@
 
 """
-In datasets/tokyo247/raw_data you should have unpacked the following tars:
-03814.tar, 03815.tar, 03816.tar, 03817.tar, 03818.tar, 03819.tar, 03820.tar, 03821.tar,
-03822.tar, 03823.tar, 03824.tar, 03825.tar, 03826.tar, 03827.tar, 03828.tar, 03829.tar.
-Moreover, there should be the file datasets/tokyo247/raw_data/datasets/tokyo247.mat
+In datasets/tokyo247/raw_data you should have unpacked the following folders:
+03814, 03815, 03816, 03817, 03818, 03819, 03820, 03821, 03822, 03823, 03824,
+03825, 03826, 03827, 03828, 03829.
+Each one of the above folders is extracted from the respective .tar file (e.g.
+03814 must be extracted from 03814.tar).
+You should also have the folder datasets/tokyo247/raw_data/247query_subset_v2,
+extracted from 247query_subset_v2.zip.
+Finally, there should be the file datasets/tokyo247/raw_data/datasets/tokyo247.mat
 """
 
 import os
