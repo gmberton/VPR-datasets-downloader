@@ -36,7 +36,7 @@ os.makedirs(join(raw_data_folder, "tokyo247"), exist_ok=True)
 matlab_struct_file_path = join(dataset_folder, 'raw_data', 'datasets', 'tokyo247.mat')
 
 mat_struct = loadmat(matlab_struct_file_path)["dbStruct"].item()
-db_images = [join('tokyo247', f[0].item().replace('.jpg', '.png')) for f in mat_struct[1]]
+db_images = [f[0].item().replace('.jpg', '.png') for f in mat_struct[1]]
 
 db_utms = mat_struct[2].T
 dst_folder = join(dataset_folder, 'images', 'test', 'database')
