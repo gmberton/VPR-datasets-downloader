@@ -1,13 +1,42 @@
-
 """
-In datasets/tokyo247/raw_data you should have unpacked the following folders:
-03814, 03815, 03816, 03817, 03818, 03819, 03820, 03821, 03822, 03823, 03824,
-03825, 03826, 03827, 03828, 03829.
-Each one of the above folders is extracted from the respective .tar file (e.g.
-03814 must be extracted from 03814.tar).
-You should also have the folder datasets/tokyo247/raw_data/247query_subset_v2,
-extracted from 247query_subset_v2.zip.
-Finally, there should be the file datasets/tokyo247/raw_data/datasets/tokyo247.mat
+This script allows to format the dataset of Tokyo 24/7 to a common format.
+The dataset should be downloaded before running this script (contact its
+authors for the link), and the files should be arranged as in the tree below.
+Folders like 03814 contain the images, and tokyo247.mat contains the metadata.
+Folders like 038XX should be extracted from archive 038XX.tar
+The queries are automatically downloaded by this script.
+Note that Tokyo 24/7 is a test-only dataset, i.e. there is no train and
+validation set. In some works (e.g. NetVLAD) Tokyo TM (Time Machine) has been
+used as a training set, but we do not provide the code to download it and
+format it.
+
+.
+|-- format_tokyo247.py
+|-- map_builder.py
+|-- util.py
+`-- datasets
+    `-- tokyo247
+        `-- raw_data
+            |-- datasets
+            |   `-- tokyo247.mat
+            `-- tokyo247
+                |-- 03814
+                |-- 03815
+                |-- 03816
+                |-- 03817
+                |-- 03818
+                |-- 03819
+                |-- 03820
+                |-- 03821
+                |-- 03822
+                |-- 03823
+                |-- 03824
+                |-- 03825
+                |-- 03826
+                |-- 03827
+                |-- 03828
+                `-- 03829
+
 """
 
 import os
