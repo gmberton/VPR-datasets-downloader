@@ -161,3 +161,23 @@ def build_map_from_dataset(dataset_folder, dot_sizes=None):
     print(f"Map image resolution: {map_img.shape}")
     dataset_name = os.path.basename(os.path.abspath(dataset_folder))
     io.imsave(join(dataset_folder, f"map_{dataset_name}.png"), map_img)
+
+
+if __name__ == "__main__":
+    coordinates = [
+        np.array([[41.8931, 12.4828], [45.4669, 9.1900], [40.8333, 14.2500]]),
+        np.array([[52.5200, 13.4050], [48.7775, 9.1800], [48.1375, 11.5750]]),
+        np.array([[48.8567, 2.3522], [43.2964, 5.3700], [45.7600, 4.8400]])
+    ]
+    map_img = _create_map(
+        coordinates,
+        colors=["green", "black", "blue"],
+        dot_sizes=[1000, 1000, 1000],
+        legend_names=[
+            "Main Italian Cities",
+            "Main German Cities",
+            "Main French Cities",
+        ])
+    
+    io.imsave("cities.png", map_img)
+
