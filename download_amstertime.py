@@ -30,10 +30,11 @@ os.makedirs(database_folder, exist_ok=True)
 os.makedirs(queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
-util.download_heavy_file("https://data.4tu.nl/ndownloader/files/34793920",
+util.download_heavy_file("https://data.4tu.nl/ndownloader/items/d2ee2551-986a-46bc-8540-b43f5b01ec4d/versions/4",
                          join(raw_data_folder, "data.zip"))
 
 shutil.unpack_archive(join(raw_data_folder, "data.zip"), raw_data_folder)
+shutil.unpack_archive(join(raw_data_folder, "AmsterTime-v1.0.zip"), raw_data_folder)
 
 database_paths = sorted(glob(join(raw_data_folder, "new", "*.png")))
 queries_paths = sorted(glob(join(raw_data_folder, "old", "*.jpg")))
@@ -45,7 +46,7 @@ for db_filepath, q_filepath in zip(tqdm(database_paths, ncols=100), queries_path
     assert os.path.splitext(db_filename)[0] == os.path.splitext(q_filename)[0]
     pair_name = os.path.splitext(db_filename)[0]
     # Simulate a distance of at least 100 meters between any two pairs of non-matching images
-    mock_utm_east = int(pair_name) * 100
+    mock_utm_east = int(pair_name) * 1000
     new_image_name = f"@0@{mock_utm_east}@@@@@{pair_name}@@@@@@@@.jpg"
     new_q_path = os.path.join(queries_folder, new_image_name)  # queries are in JPEG
     _ = shutil.move(q_filepath, new_q_path)
