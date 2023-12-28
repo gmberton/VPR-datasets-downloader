@@ -48,6 +48,7 @@ The list of datasets that you can download with this codebase is the following:
 - SVOX - as test set only
 - Nordland - as test set only
 - AmsterTime - as test set only
+- SPED - as test set only
 
 To download each dataset, simply run the corresponding python script, that will download,
 unpack and format the file according to the structure above.
@@ -227,6 +228,11 @@ For Tokyo 24/7, first download the data under datasets/tokyo247/raw_data, then s
 }
 </pre>
 </details>
+
+### Other datasets
+
+Other datasets can be found in the [directory of Anyloc's datasets](https://iiitaphyd-my.sharepoint.com/personal/robotics_iiit_ac_in/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Frobotics%5Fiiit%5Fac%5Fin%2FDocuments%2FStudent%20Research%2FAnyLoc%2D2023%2FPublic%2FDatasets%2DAll) and [the directory of SALAD's datasets](https://surfdrive.surf.nl/files/index.php/s/sbZRXzYe3l0v67W).
+
 
 ## Cite / BibTex
 If you use this codebase, please cite [our benchmark](https://github.com/gmberton/deep-visual-geo-localization-benchmark) for which this code was built, and the respective paper for the datasets.
