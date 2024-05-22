@@ -24,7 +24,7 @@ def download_heavy_file(url, output_path):
         return
     for attempt_num in range(10):  # In case of errors, try 10 times
         try:
-            req = requests.get(url, stream=True)
+            req = requests.get(url, stream=True, timeout=5)
             total_size = int(req.headers.get('content-length', 0))  # Total size in bytes
             block_size = 1024  # 1 KB
             tqdm_bar = tqdm(total=total_size, desc=os.path.basename(output_path),
@@ -66,16 +66,14 @@ def is_valid_timestamp(timestamp):
 def format_coord(num, left=2, right=5):
     """Return the formatted number as a string with (left) int digits 
             (including sign '-' for negatives) and (right) float digits.
-    >>> format_coord(1.1, 3, 3)
+    >>> format_coord2(1.1, 3, 3)
     '001.100'
-    >>> format_coord(-0.123, 3, 3)
+    >>> format_coord2(-0.12345, 3, 3)
     '-00.123'
+    >>> format_coord2(-0.123, 5, 5)
+    '-0000.12300'
     """
-    sign = "-" if float(num) < 0 else ""
-    num = str(abs(float(num))) + "."
-    integer, decimal = num.split(".")[:2]
-    left -= len(sign)
-    return f"{sign}{int(integer):0{left}d}.{decimal[:right]:<0{right}}"
+    return f'{num:0={left+right+1}.{right}f}'
 
 import doctest
 doctest.testmod()  # Automatically execute unit-test of format_coord()
