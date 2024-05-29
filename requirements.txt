@@ -12,3 +12,4 @@ Pillow
 protobuf
 torchvision
 gdown
+py3_wget

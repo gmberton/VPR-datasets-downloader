@@ -11,12 +11,11 @@ same position, and consecutive pairs being 100 meters away from each other.
 
 import os
 import shutil
+import py3_wget
 from glob import glob
 from tqdm import tqdm
 from PIL import Image
 from os.path import join
-
-import util
 
 
 datasets_folder = join(os.curdir, "datasets")
@@ -30,8 +29,10 @@ os.makedirs(database_folder, exist_ok=True)
 os.makedirs(queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
-util.download_heavy_file("https://data.4tu.nl/ndownloader/items/d2ee2551-986a-46bc-8540-b43f5b01ec4d/versions/4",
-                         join(raw_data_folder, "data.zip"))
+py3_wget.download_file(
+    url="https://data.4tu.nl/ndownloader/items/d2ee2551-986a-46bc-8540-b43f5b01ec4d/versions/4",
+    output_path=join(raw_data_folder, "data.zip")
+)
 
 shutil.unpack_archive(join(raw_data_folder, "data.zip"), raw_data_folder)
 shutil.unpack_archive(join(raw_data_folder, "AmsterTime-v1.0.zip"), raw_data_folder)
@@ -39,7 +40,7 @@ shutil.unpack_archive(join(raw_data_folder, "AmsterTime-v1.0.zip"), raw_data_fol
 database_paths = sorted(glob(join(raw_data_folder, "new", "*.png")))
 queries_paths = sorted(glob(join(raw_data_folder, "old", "*.jpg")))
 
-for db_filepath, q_filepath in zip(tqdm(database_paths, ncols=100), queries_paths):
+for db_filepath, q_filepath in zip(tqdm(database_paths), queries_paths):
     db_filename = os.path.basename(db_filepath)
     q_filename = os.path.basename(q_filepath)
     # Query and DB images from the same pair have the same name

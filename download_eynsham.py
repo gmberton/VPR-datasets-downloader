@@ -1,6 +1,7 @@
 
 import os
 import shutil
+import py3_wget
 import numpy as np
 from tqdm import tqdm
 from glob import glob
@@ -22,10 +23,13 @@ os.makedirs(database_folder, exist_ok=True)
 os.makedirs(queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
-util.download_heavy_file("https://zenodo.org/record/1243106/files/Eynsham.zip?download=1",
-                         join(raw_data_folder, "Eynsham.zip"))
+py3_wget.download_file(
+    url="https://zenodo.org/record/1243106/files/Eynsham.zip?download=1",
+    output_path=join(raw_data_folder, "Eynsham.zip")
+)
 
 shutil.unpack_archive(join(raw_data_folder, "Eynsham.zip"), raw_data_folder)
+print("Unzipping, this will take a while")
 
 with open(join(raw_data_folder, "Eynsham", "Route_map", "Eynsham.kml"), "r") as file:
     lines = file.readlines()
@@ -37,7 +41,7 @@ coords = np.array([s.split(",")[:2] for s in splits]).astype(np.float64)
 
 src_images_paths = sorted(glob(join(raw_data_folder, "Eynsham", "Images", "*.ppm")))[5:]
 
-for pano_num, (lon, lat) in enumerate(tqdm(coords, ncols=100)):
+for pano_num, (lon, lat) in enumerate(tqdm(coords)):
     for tile_num in range(5):
         src_image_path = src_images_paths[pano_num*5 + tile_num]
         timestamp = src_image_path.split("grab_")[1].split(".")[0]

@@ -1,5 +1,5 @@
 """
-This script download the Nordland dataset with the split used in Patch-NetVLAD.
+This script downloads the Nordland dataset with the split used in Patch-NetVLAD.
 The images are arranged to be compatible with our benchmarking framework, and
 also with the CosPlace repository.
 In Nordland usually a prediction for a given query is considered correct if it
@@ -13,6 +13,7 @@ and set UTM_north to be 2.4 meters apart between consecutive frames.
 
 import os
 import shutil
+import py3_wget
 from tqdm import tqdm
 from glob import glob
 from PIL import Image
@@ -36,12 +37,18 @@ os.makedirs(queries_folder, exist_ok=True)
 os.makedirs(raw_data_folder, exist_ok=True)
 
 print("Downloading tars with the images")
-os.system("wget 'https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424421870101' "
-          "-O " + join(raw_data_folder, "summer.tar.gz"))
-os.system("wget 'https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1521702837314' "
-          "-O " + join(raw_data_folder, "winter.tar.gz"))
-util.download_heavy_file("https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424408901067",
-                          join(raw_data_folder, "cleanImageNames.txt"))
+py3_wget.download_file(
+    url='https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424421870101',
+    output_path=join(raw_data_folder, "summer.tar.gz")
+)
+py3_wget.download_file(
+    url='https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1521702837314',
+    output_path=join(raw_data_folder, "winter.tar.gz")
+)
+py3_wget.download_file(
+    url="https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424408901067",
+    output_path=join(raw_data_folder, "cleanImageNames.txt")
+)
 
 print("Unpacking tars with the images, this will take a few minutes")
 shutil.unpack_archive(join(raw_data_folder, "summer.tar.gz"), raw_data_folder)

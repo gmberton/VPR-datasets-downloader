@@ -43,6 +43,7 @@ import os
 import re
 import utm
 import shutil
+import py3_wget
 import torchvision
 from glob import glob
 from tqdm import tqdm
@@ -71,7 +72,7 @@ db_utms = mat_struct[2].T
 dst_folder = join(dataset_folder, 'images', 'test', 'database')
 
 os.makedirs(dst_folder, exist_ok=True)
-for src_image_path, (utm_east, utm_north) in zip(tqdm(db_images, desc=f"Copy to {dst_folder}", ncols=100),
+for src_image_path, (utm_east, utm_north) in zip(tqdm(db_images, desc=f"Copy to {dst_folder}"),
                                                  db_utms):
     src_image_name = os.path.basename(src_image_path)
     latitude, longitude = utm.to_latlon(utm_east, utm_north, 54, 'S')
@@ -91,12 +92,12 @@ for src_image_path, (utm_east, utm_north) in zip(tqdm(db_images, desc=f"Copy to 
 filename = "247query_subset_v2.zip"
 url = f"https://data.ciirc.cvut.cz/public/projects/2015netVLAD/Tokyo247/queries/{filename}"
 file_zip_path = join(raw_data_folder, "tokyo247", filename)
-util.download_heavy_file(url, file_zip_path)
+py3_wget.download_file(url, file_zip_path)
 shutil.unpack_archive(file_zip_path, join(raw_data_folder, "tokyo247"))
 src_queries_folder = file_zip_path.replace(".zip", "")
 src_queries_paths = sorted(glob(join(src_queries_folder, "*.jpg")))
 os.makedirs(join(dataset_folder, "images", "test", "queries"), exist_ok=True)
-for src_query_path in tqdm(src_queries_paths, desc=f"Copy to {dataset_folder}/images/test/queries", ncols=100):
+for src_query_path in tqdm(src_queries_paths, desc=f"Copy to {dataset_folder}/images/test/queries"):
     csv_path = src_query_path.replace(".jpg", ".csv")
     with open(csv_path, "r") as file:
         info = file.readline()

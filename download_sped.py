@@ -1,15 +1,17 @@
 
 import shutil
+import py3_wget
 from pathlib import Path
 from zipfile import ZipFile
 
-import util
-
-URL = "https://surfdrive.surf.nl/files/index.php/s/sbZRXzYe3l0v67W/download?path=%2F&files=SPEDTEST.zip"
 
 zip_filepath = Path("datasets", "sped", "raw_data", "sped.zip")
 zip_filepath.parent.mkdir(exist_ok=True, parents=True)
-util.download_heavy_file(URL, zip_filepath)
+
+py3_wget.download_file(
+    url="https://surfdrive.surf.nl/files/index.php/s/sbZRXzYe3l0v67W/download?path=%2F&files=SPEDTEST.zip",
+    output_path=zip_filepath
+)
 
 zf = ZipFile(zip_filepath, 'r')
 zf.extractall(zip_filepath.parent)

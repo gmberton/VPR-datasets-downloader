@@ -3,6 +3,7 @@ import os
 import utm
 import math
 import shutil
+import py3_wget
 from glob import glob
 from tqdm import tqdm
 from os.path import join
@@ -27,7 +28,7 @@ for i, (url, tar_path) in enumerate(zip(urls, tars_paths)):
     if os.path.exists(tar_path.replace("PCIs_", "").replace(".tar", "")):
         continue
     print(f"{i:>3} / {len(filenames)} ) downloading {tar_path}")
-    util.download_heavy_file(url, tar_path)
+    py3_wget.download_file(url, tar_path)
     try:  # Unpacking database archives
         shutil.unpack_archive(tar_path, raw_data_folder)
     except shutil.ReadError:
@@ -37,7 +38,7 @@ print("Formatting database files")
 dst_database_folder = join(dataset_folder, "images", "test", "database")
 os.makedirs(dst_database_folder, exist_ok=True)
 src_images_paths = sorted(glob(join(raw_data_folder, "**", "*.jpg"), recursive=True))
-for src_image_path in tqdm(src_images_paths, ncols=100):
+for src_image_path in tqdm(src_images_paths):
     _, _, pano_id, latitude, longitude, building_id, tile_num, carto_id, heading, pitch = os.path.basename(src_image_path).split("_")
     pitch = pitch.replace(".jpg", "")
     dst_image_name = util.get_dst_image_name(latitude, longitude, pano_id, tile_num,
@@ -50,7 +51,7 @@ print("Downloading query archive")
 queries_zip_filename = "BuildingQueryImagesCartoIDCorrected-Upright.zip"
 url = f"https://stacks.stanford.edu/file/druid:vn158kj2087/{queries_zip_filename}"
 queries_zip_path = join(raw_data_folder, queries_zip_filename)
-util.download_heavy_file(url, queries_zip_path)
+py3_wget.download_file(url, queries_zip_path)
 
 print("Unpacking query archive")
 shutil.unpack_archive(queries_zip_path, raw_data_folder)
@@ -59,8 +60,10 @@ print("Formatting query files")
 dst_queries_folder = join(dataset_folder, "images", "test", "queries")
 os.makedirs(dst_queries_folder, exist_ok=True)
 poses_file_path = join(raw_data_folder, "reference_poses_598.zip")
-util.download_heavy_file("http://www.ok.sc.e.titech.ac.jp/~torii/project/vlocalization/icons/reference_poses_598.zip",
-                         poses_file_path)
+py3_wget.download_file(
+    url="http://www.ok.sc.e.titech.ac.jp/~torii/project/vlocalization/icons/reference_poses_598.zip",
+    output_path=poses_file_path
+)
 shutil.unpack_archive(poses_file_path, raw_data_folder)
 
 with open(join(raw_data_folder, "reference_poses_598", "reference_poses_addTM_all_598.txt"), "r") as file:

@@ -25,7 +25,7 @@ os.makedirs(raw_data_folder, exist_ok=True)
 
 def copy_images(dst_folder, src_images_paths, utms):
     os.makedirs(dst_folder, exist_ok=True)
-    for src_image_path, (utm_east, utm_north) in zip(tqdm(src_images_paths, desc=f"Copy to {dst_folder}", ncols=100),
+    for src_image_path, (utm_east, utm_north) in zip(tqdm(src_images_paths, desc=f"Copy to {dst_folder}"),
                                                      utms):
         src_image_name = os.path.basename(src_image_path)
         latitude, longitude = utm.to_latlon(utm_east, utm_north, 17, "T")
