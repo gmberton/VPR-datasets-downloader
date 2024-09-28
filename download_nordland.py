@@ -9,6 +9,12 @@ positives and negatives, we create dummy UTM coordinates for all images,
 ensuring that images that are within 10 frames are also within 25 meters.
 In practice, we organize all images with UTM_east = 0 (i.e. in a straight line)
 and set UTM_north to be 2.4 meters apart between consecutive frames.
+
+NOTE: in some works [1-3] the split between database and queries is flipped,
+in the sense that winter images are used for the database and summer images for queries.
+[1] Zaffar et al, 2020, VPR-Bench: An Open-Source Visual Place Recognition Evaluation Framework with Quantifiable Viewpoint and Appearance Change
+[2] Ali-bey et al, 2024, BoQ: A Place is Worth a Bag of Learnable Queries
+[3] Izquierdo et al, 2024, Optimal transport aggregation for visual place recognition
 """
 
 import os
