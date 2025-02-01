@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import os
 import cv2
+import copy
 import math
 import numpy as np
 from glob import glob
@@ -64,6 +65,7 @@ def get_edges(coordinates, enlarge=0):
 
 
 def _create_map(coordinates, colors=None, dot_sizes=None, legend_names=None, map_intensity=0.6):
+    coordinates = copy.deepcopy(coordinates)
     dot_sizes = dot_sizes if dot_sizes is not None else [10] * len(coordinates)
     colors = colors if colors is not None else ["r"] * len(coordinates)
     assert len(coordinates) == len(dot_sizes) == len(colors), \
@@ -180,4 +182,3 @@ if __name__ == "__main__":
         ])
     
     io.imsave("cities.png", map_img)
-
