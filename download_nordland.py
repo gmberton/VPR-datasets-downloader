@@ -44,15 +44,15 @@ os.makedirs(raw_data_folder, exist_ok=True)
 
 print("Downloading tars with the images")
 py3_wget.download_file(
-    url='https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424421870101',
+    url='https://adelaideuniversity.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424421870101',
     output_path=join(raw_data_folder, "summer.tar.gz")
 )
 py3_wget.download_file(
-    url='https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1521702837314',
+    url='https://adelaideuniversity.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1521702837314',
     output_path=join(raw_data_folder, "winter.tar.gz")
 )
 py3_wget.download_file(
-    url="https://universityofadelaide.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424408901067",
+    url='https://adelaideuniversity.app.box.com/index.php?rm=box_download_shared_file&shared_name=zkfk1akpbo5318fzqmtvlpp7030ex4up&file_id=f_1424408901067',
     output_path=join(raw_data_folder, "cleanImageNames.txt")
 )
 
