@@ -71,7 +71,7 @@ For Pitts30k, first download the data under datasets/pitts30k/raw_data, then sim
 
 ```bibtex
 @article{Torii_2015_pitts,
-    author  = {A. {Torii} and J. {Sivic} and M. {Okutomi} and T. {Pajdla}},
+    author  = {Torii, Akihiko and Sivic, Josef and Okutomi, Masatoshi and Pajdla, Tomas},
     title   = {Visual Place Recognition with Repetitive Structures},
     journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
     year    = {2015}
@@ -89,7 +89,7 @@ For Pitts250k, first download the data under datasets/pitts250k/raw_data, then s
 
 ```bibtex
 @article{Torii_2015_pitts,
-    author  = {A. {Torii} and J. {Sivic} and M. {Okutomi} and T. {Pajdla}},
+    author  = {Torii, Akihiko and Sivic, Josef and Okutomi, Masatoshi and Pajdla, Tomas},
     title   = {Visual Place Recognition with Repetitive Structures},
     journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
     year    = {2015}
@@ -136,7 +136,7 @@ If using Eynsham, two papers should be cited: the first is the data collection w
 
 ```bibtex
 @inproceedings{Cummins_2009_eynsham,
-    author    = {M. Cummins and P. Newman},
+    author    = {Cummins, Mark and Newman, Paul},
     title     = {Highly scalable appearance-only SLAM - {FAB-MAP} 2.0},
     booktitle = {Robotics: Science and Systems},
     year      = {2009}
@@ -162,7 +162,7 @@ To download San Francisco Landmark, simply run `$ python download_san_francisco.
 
 ```bibtex
 @inproceedings{Chen_2011_san_francisco,
-    author    = {D. M. {Chen} and G. {Baatz} and K. {K{\"o}ser} and S. S. {Tsai} and R. {Vedantham} and T. {Pylv{\"a}n{\"a}inen} and K. {Roimela} and X. {Chen} and J. {Bach} and M. {Pollefeys} and B. {Girod} and R. {Grzeszczuk}},
+    author    = {Chen, David M. and Baatz, Georges and K{\"o}ser, Kevin and Tsai, Sam S. and Vedantham, Ramakrishna and Pylv{\"a}n{\"a}inen, Timo and Roimela, Kimmo and Chen, Xin and Bach, Jeff and Pollefeys, Marc and Girod, Bernd and Grzeszczuk, Radek},
     title     = {City-scale landmark identification on mobile devices},
     booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
     year      = {2011},
@@ -186,7 +186,7 @@ If using St Lucia, two papers should be cited: the first is the data collection 
 
 ```bibtex
 @article{Milford_2008_st_lucia,
-    author  = {Michael J. Milford and Gordon F. Wyeth},
+    author  = {Milford, Michael J. and Wyeth, Gordon F.},
     title   = {Mapping a Suburb With a Single Camera Using a Biologically Inspired SLAM System},
     journal = {IEEE Transactions on Robotics},
     volume  = {24},
@@ -239,7 +239,7 @@ The images are arranged to have GPS/UTM labels compatible with the benchmarking 
 
 ```bibtex
 @inproceedings{Sunderhauf_2013_nordland,
-    author    = {N. S{\"u}nderhauf and P. Neubert and P. Protzel},
+    author    = {S{\"u}nderhauf, Niko and Neubert, Peer and Protzel, Peter},
     title     = {Are we there yet? Challenging {SeqSLAM} on a 3000 km journey across all four seasons},
     booktitle = {Proc. of Workshop on Long-Term Autonomy, }#icra,
     year      = {2013}
@@ -257,7 +257,7 @@ For Tokyo 24/7, first download the data under datasets/tokyo247/raw_data, then s
 
 ```bibtex
 @article{Torii_2018_tokyo247,
-    author  = {A. {Torii} and R. {Arandjelovi{\'c}} and J. {Sivic} and M. {Okutomi} and T. {Pajdla}},
+    author  = {Torii, Akihiko and Arandjelovi{\'c}, Relja and Sivic, Josef and Okutomi, Masatoshi and Pajdla, Tomas},
     title   = {24/7 Place Recognition by View Synthesis},
     journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
     volume  = {40},
@@ -282,7 +282,7 @@ If using Baidu, two papers should be cited: the first is the data collection wor
 
 ```bibtex
 @inproceedings{Sun_2017_baidu,
-    author    = {Xun Sun and Yuanfan Xie and Pei Luo and Liang Wang},
+    author    = {Sun, Xun and Xie, Yuanfan and Luo, Pei and Wang, Liang},
     title     = {A Dataset for Benchmarking Image-Based Localization},
     booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
     pages     = {5641--5649},
